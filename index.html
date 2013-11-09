@@ -1,26 +1,60 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 
-<script type="text/javascript" src="swfobject.js"></script>    
-  <div id="ytapiplayer">
-    You need Flash player 8+ and JavaScript enabled to view this video.
-  </div>
-  
- <script type="text/javascript">
+<!-- http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js -->
 
-    var params = { allowScriptAccess: "always" };
-    var atts = { id: "myytplayer" };
-    swfobject.embedSWF("http://www.youtube.com/v/4HX74UhgMFA?enablejsapi=1&playerapiid=ytplayer&version=3",
-                       "ytapiplayer", "425", "356", "8", null, null, params, atts);
+<script type="text/javascript" src="swfobject.js"></script>     
 
-  </script>
   
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>New Web Project</title>
+        <title>My lopper</title>
     </head>
     <body>
-        <h1>New Web Project Page</h1>
+    	<div id="ytplayer">
+    		You need Flash player 8+ and JavaScript enabled to view this video.
+  		</div>
+  		<script type="text/javascript">	
+
+		    var params = { allowScriptAccess: "always" };
+		    var atts = { id: "ytplayer"};
+		    var videoId = "4HX74UhgMFA";
+		    swfobject.embedSWF("http://www.youtube.com/v/"+videoId+"?enablejsapi=1&version=3",
+		                       "ytplayer", "425", "356", "8", null, null, params, atts);
+		
+			function loadNewVideo(id) {
+				  if (ytplayer) {
+					ytplayer.loadVideoById(id);
+				  }
+			}
+			
+			function play() {
+				ytplayer = document.getElementById("ytplayer");
+				if (ytplayer) {
+					ytplayer.playVideo();
+  				}
+			}
+			
+			function setLoop(){
+				var loop = false;
+				if(document.getElementById("loopVideo").checked) {
+            		loop = true;
+            	}else{
+            		loop = false;	
+            	}
+            	alert("click");
+            	if(ytplayer){
+						ytplayer.setLoop(loop);            			
+            	}
+            	
+			}
+
+		</script>
+        <h1>Looper</h1>
+        <button onclick="play()">Play</button>
+        <form>      
+        	<input type="checkbox" id="loopVideo" onclick="setLoop()"> Loop Video      	
+        </form> 
     </body>
 </html>
