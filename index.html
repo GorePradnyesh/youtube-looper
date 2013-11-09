@@ -51,11 +51,20 @@
                     }
 		        }
   			}
-		
+  			
+  			function loadVideo(){
+				newId = document.getElementById("videoId").value;
+  				player.loadVideoById(newId, 0);
+			}
+  			
 		</script>
         <h1>Looper</h1>
-        <form>      
-        	<input type="checkbox" id="loopVideo" onclick="setLoop()"> Loop Video      	
-        </form> 
+        <form>            	
+        	<input type="checkbox" checked="checked" id="loopVideo" onclick="setLoop()"> Loop Video
+        </form>
+        <form>
+			11-char VideoId: <input type="text" id="videoId"> 
+        </form>
+        <button onclick="loadVideo()">START LOOPING</button> 
     </body>
 </html>
