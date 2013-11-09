@@ -12,47 +12,48 @@
         <title>My lopper</title>
     </head>
     <body>
-    	<div id="ytplayer">
-    		You need Flash player 8+ and JavaScript enabled to view this video.
-  		</div>
+    	<div id="player"></div>
   		<script type="text/javascript">	
+			var tag = document.createElement('script');
+			
+			tag.src = "https://www.youtube.com/iframe_api";
+			var firstScriptTag = document.getElementsByTagName('script')[0];
+			firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+			
+			var player;
+			function onYouTubeIframeAPIReady() {
+			    player = new YT.Player('player', {
+			        height: '390',
+			        width: '640',
+			        videoId: 'M7lc1UVf-VE',
+        			events: {
+            			'onReady': onReady,
+            			'onStateChange': onPlayerStateChange 
+        			}	        
+			    });
+			}
+			function onReady() {
+    			player.addEventListener('onStateChange', function(e) {
+        			console.log('State is:', e.data);
+    			});
+    		}
 
-		    var params = { allowScriptAccess: "always" };
-		    var atts = { id: "ytplayer"};
-		    var videoId = "4HX74UhgMFA";
-		    swfobject.embedSWF("http://www.youtube.com/v/"+videoId+"?enablejsapi=1&version=3",
-		                       "ytplayer", "425", "356", "8", null, null, params, atts);
+			function onPlayerStateChange(event) {
+		        if (event.data == YT.PlayerState.ENDED) {
+					var loop = false;
+                    if(document.getElementById("loopVideo").checked) {
+                    	loop = true;
+                    }else{
+                        loop = false;        
+                    }							        		          
+                    if(loop){
+                    	player.seekTo(0, true);
+                    }
+		        }
+  			}
 		
-			function loadNewVideo(id) {
-				  if (ytplayer) {
-					ytplayer.loadVideoById(id);
-				  }
-			}
-			
-			function play() {
-				ytplayer = document.getElementById("ytplayer");
-				if (ytplayer) {
-					ytplayer.playVideo();
-  				}
-			}
-			
-			function setLoop(){
-				var loop = false;
-				if(document.getElementById("loopVideo").checked) {
-            		loop = true;
-            	}else{
-            		loop = false;	
-            	}
-            	alert("click");
-            	if(ytplayer){
-						ytplayer.setLoop(loop);            			
-            	}
-            	
-			}
-
 		</script>
         <h1>Looper</h1>
-        <button onclick="play()">Play</button>
         <form>      
         	<input type="checkbox" id="loopVideo" onclick="setLoop()"> Loop Video      	
         </form> 
